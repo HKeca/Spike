@@ -21,7 +21,7 @@ namespace spike { namespace graphics {
 	}
 
 	/*
-		
+		Init window
 	*/
 	bool Window::init()
 	{
@@ -31,6 +31,7 @@ namespace spike { namespace graphics {
 			return false;
 		}
 
+		// create window
 		m_Window = glfwCreateWindow(m_Width, m_Height, m_Title, NULL, NULL);
 
 		if (!m_Window)
@@ -41,6 +42,14 @@ namespace spike { namespace graphics {
 		}
 		glfwMakeContextCurrent(m_Window);
 		glfwSetWindowSizeCallback(m_Window, windowResize);
+
+		std::cout << "OpenGL " << glGetString(GL_VERSION) << std::endl;
+
+		if (glewInit() != GLEW_OK)
+		{
+			std::cout << "Couldn't init GLEW" << std::endl;
+			return false;
+		}
 
 		return true;
 	}

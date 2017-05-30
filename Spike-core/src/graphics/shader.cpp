@@ -4,14 +4,17 @@ namespace spike { namespace graphics {
 
 	Shader::Shader(const char* vertPath, const char* fragPath)
 	{
+		// Get source path for vertex & fragment shaders
 		m_VertPath = vertPath;
 		m_FragPath = fragPath;
 
+		// Load up shaders
 		m_ShaderID = load();
 	}
 
 	Shader::~Shader()
 	{
+		// delete the shader
 		glDeleteProgram(m_ShaderID);
 	}
 
@@ -27,6 +30,7 @@ namespace spike { namespace graphics {
 		const char* vertSource = vertSourceString.c_str();
 		const char* fragSource = fragSourceString.c_str();
 
+		// Compile vertex shader
 		glShaderSource(vertex, 1, &vertSource, NULL);
 		glCompileShader(vertex);
 
@@ -44,6 +48,7 @@ namespace spike { namespace graphics {
 			return 0;
 		}
 
+		// Compile fragment shader
 		glShaderSource(fragment, 1, &fragSource, NULL);
 		glCompileShader(fragment);
 
@@ -61,18 +66,58 @@ namespace spike { namespace graphics {
 			return 0;
 		}
 
+		// Attach the shaders and validate the program
 		glAttachShader(program, vertex);
 		glAttachShader(program, fragment);
 
 		glLinkProgram(program);
 		glValidateProgram(program);
 
+		// delete shaders because we don't need them anymore
 		glDeleteShader(vertex);
 		glDeleteShader(fragment);
 
+		// return the program
 		return program;
 	}
 
+	// convient way to get uni location
+	GLint Shader::getUniformLocation(const GLchar* name)
+	{
+		return glGetUniformLocation(m_ShaderID, name);
+	}
+
+	// shader helper functions
+	void Shader::setUniform1f(const GLchar* name, float value)
+	{
+		glUniform1f(getUniformLocation(name), value);
+	}
+
+	void Shader::setUniform1i(const GLchar* name, int value)
+	{
+		glUniform1i(getUniformLocation(name), value);
+	}
+
+	void Shader::setUniform2f(const GLchar* name, const maths::vec2& vector)
+	{
+		glUniform2f(getUniformLocation(name), vector.x, vector.y);
+	}
+
+	void Shader::setUniform3f(const GLchar* name, const maths::vec3& vector)
+	{
+		glUniform3f(getUniformLocation(name), vector.x, vector.y, vector.z);
+	}
+	void Shader::setUniform4f(const GLchar* name, const maths::vec4& vector)
+	{
+		glUniform4f(getUniformLocation(name), vector.x, vector.y, vector.z, vector.w);
+	}
+
+	void Shader::setUniformMat4(const GLchar* name, const maths::mat4& matrix)
+	{
+		glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, matrix.elements);
+	}
+
+	// Enable / disable the shader
 	void Shader::enable() const
 	{
 		glUseProgram(m_ShaderID);

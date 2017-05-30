@@ -5,12 +5,14 @@ namespace spike { namespace maths {
 
 	mat4::mat4()
 	{
+		// init a blank matrix
 		for (int i = 0; i < 4 * 4; i++)
 			elements[i] = 0.0f;
 	}
 
 	mat4::mat4(float diagonal)
 	{
+		// Init a matrix with a set diagonal value
 		for (int i = 0; i < 4 * 4; i++)
 			elements[i] = 0.0f;
 
@@ -22,11 +24,13 @@ namespace spike { namespace maths {
 
 	mat4 mat4::identity()
 	{
+		// matrix with a set diagonal of 1
 		return mat4(1.0f);
 	}
 
 	mat4& mat4::multiply(const mat4& other)
 	{
+		// multiply the matrix with another
 		for (int y = 0; y < 4; y++)
 		{
 			for (int x = 0; x < 4; x++)
@@ -44,6 +48,7 @@ namespace spike { namespace maths {
 		return *this;
 	}
 
+	// operators
 	mat4 operator*(mat4 left, const mat4& right)
 	{
 		return left.multiply(right);
@@ -54,6 +59,7 @@ namespace spike { namespace maths {
 		return multiply(other);
 	}
 
+	// Generate an orthographic matrix
 	mat4 mat4::orthographic(float left, float right, float top,
 		float bottom, float near, float far)
 	{
@@ -71,7 +77,8 @@ namespace spike { namespace maths {
 
 		return result;
 	}
-
+	
+	// Generate a perspective matrix
 	mat4 mat4::perspective(float fov, float aspectRatio,
 		float near, float far)
 	{
@@ -92,7 +99,8 @@ namespace spike { namespace maths {
 		return result;
 	}
 	
-	mat4 mat4::translation(const vec3& translation)
+	// Translate a matrix
+	mat4 mat4::translate(const vec3& translation)
 	{
 		mat4 result(1.0f);
 
@@ -102,7 +110,8 @@ namespace spike { namespace maths {
 
 		return result;
 	}
-
+	
+	// Scale a matrix
 	mat4 mat4::scale(const vec3& scale)
 	{
 		mat4 result(1.0f);
@@ -114,6 +123,7 @@ namespace spike { namespace maths {
 		return result;
 	}
 
+	// Rotate a matrix
 	mat4 mat4::rotation(float angle, const vec3& axis)
 	{
 		mat4 result(1.0f);

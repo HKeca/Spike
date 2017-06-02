@@ -67,6 +67,8 @@ namespace spike { namespace graphics {
 		glfwSetMouseButtonCallback(m_Window, mouse_button_callback);
 		glfwSetCursorPosCallback(m_Window, cursor_position_callback);
 
+		glfwSwapInterval(0);
+
 		// Glew init
 		if (glewInit() != GLEW_OK)
 		{

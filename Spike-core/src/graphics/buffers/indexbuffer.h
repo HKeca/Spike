@@ -10,7 +10,9 @@ namespace spike { namespace graphics {
 			GLuint m_BufferID;
 			GLuint m_Count;
 		public:
+			IndexBuffer(GLuint* data, GLsizei count);
 			IndexBuffer(GLushort* data, GLsizei count);
+			~IndexBuffer();
 
 			inline GLuint getCount() const { return m_Count; }
 

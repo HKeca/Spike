@@ -25,6 +25,11 @@ namespace spike { namespace maths {
 		friend mat4 operator*(mat4 left, const mat4& right);
 		mat4& operator*=(const mat4& other);
 
+		vec3 multiply(const vec3& other) const;
+		friend vec3 operator*(const mat4& left, const vec3& right);
+
+		vec4 multiply(const vec4& other) const;
+		friend vec4 operator*(const mat4& left, const vec4& right);
 
 		static mat4 orthographic(float left, float right, float top,
 			float bottom, float near, float far);

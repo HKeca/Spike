@@ -18,6 +18,8 @@
 
 #include <time.h>
 
+#define TEST_50k_SPRITES 0
+
 int main()
 {
 	using namespace spike;
@@ -43,7 +45,7 @@ int main()
 	shader2.setUniform2f("light_pos", vec2(8.0f, 4.5f));
 
 	TileLayer layer(&shader);
-
+#if TEST_50k_SPRITES
 	for (float y = -9.0f; y < 9.0f; y += 0.1)
 	{
 		for (float x = -16.0f; x < 16.0f; x += 0.1)
@@ -51,6 +53,11 @@ int main()
 			layer.add(new Sprite(x, y, 0.09f, 0.09f, maths::vec4(rand() % 1000 / 1000.0f, 0, 1, 1)));
 		}
 	}
+#else
+
+	layer.add(new Sprite(-15.0f, -5.0, 6, 3, maths::vec4(1, 1, 1, 1)));
+
+#endif
 
 	TileLayer layer2(&shader2);
 	layer2.add(new Sprite(-2, -2, 4, 4, maths::vec4(0, 1, 0, 1)));
@@ -72,7 +79,7 @@ int main()
 		shader2.setUniform2f("light_pos", vec2((float)(x * 32.0f / 960.0f - 16.0f), (float)(9.0f - y * 18.0f / 540.0f)));
 
 		layer.render();
-		layer2.render();
+		//layer2.render();
 
 		window.update();
 		frames++;
